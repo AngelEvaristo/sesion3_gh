@@ -43,7 +43,9 @@ jobs:
       #     Push-Location "dist/my-first-angular-app/browser"
       #     Compress-Archive -Path * -DestinationPath "$env:GITHUB_WORKSPACE/app.zip"
       #     Pop-Location        
-
+#########
+##COMPOSITE
+#########
       - name: Crear ZIP usando composite action
         uses: ./.github/actions/createzip
         with:
@@ -55,12 +57,22 @@ jobs:
         with:
           name: app-zip2
           path: app.zip
-
+#########
+##REUSABLE WORKFLOW LOCAL
+#########
+  # call-build:
+  #   uses: ./.github/workflows/reusable.yml
+  #   with:
+  #     app-name: "mi-webapp-angular"
+  #     source-path: "dist/my-first-angular-app/browser"
+#########
+##REUSABLE WORKFLOW REMOTE
+#########
   call-build:
-    uses: ./.github/workflows/reusable.yml
+    uses: AngelEvaristo/templatestest/.github/workflows/template.yml@main
     with:
       app-name: "mi-webapp-angular"
-      source-path: "dist/my-first-angular-app/browser"
+      source-path: "dist/my-first-angular-app/browser"  
 
   # Compilacion_2:
   #   runs-on: ubuntu-latest
