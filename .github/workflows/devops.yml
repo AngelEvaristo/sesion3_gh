@@ -44,3 +44,37 @@ jobs:
         with:
           name: app-zip2
           path: app.zip
+
+  Compilacion_2:
+    runs-on: ubuntu-latest
+    steps:    
+      - uses: actions/checkout@v4  
+
+      - name: Setear versión de Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"   # Cambia a la versión que necesites
+          cache: 'npm'         # Opcional: cachea dependencias npm 
+
+      - name: Instalar dependencias
+        run: |
+          echo "Versión: 20"
+          npm install -g @angular/cli
+          npm install
+
+      - name: Compilar aplicación
+        run: ng build --configuration production   
+
+      - name: Comprimir con PowerShell
+        shell: pwsh
+        run: |
+          # if (Test-Path dist/my-first-angular-app/browser) { Remove-Item dist/my-first-angular-app/browser -Force }
+          Push-Location "dist/my-first-angular-app/browser"
+          Compress-Archive -Path * -DestinationPath "$env:GITHUB_WORKSPACE/app.zip"
+          Pop-Location        
+
+      - name: Publicar artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-zip3
+          path: app.zip
