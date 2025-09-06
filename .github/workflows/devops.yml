@@ -83,12 +83,25 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_SECRET }}
 
-      - name: Deploy al Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: "${{ vars.APPNAME }}"   # reemplaza con el nombre real
-          package: app.zip
+######
+# DEPLOY WEB APP .ZIP
+######
 
+      # - name: Deploy al Web App
+      #   uses: azure/webapps-deploy@v3
+      #   with:
+      #     app-name: "${{ vars.APPNAME }}"   # reemplaza con el nombre real
+      #     package: app.zip
+
+######
+# DEPLOY WEB APP ACR
+######
+
+      - name: Deploy to Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "${{ vars.APPNAME_ACR }}"   # 
+          images: devopspruebatecylab.azurecr.io/minimalapi:1.2.7  
 
   # DeployCERT:
   #   runs-on: ubuntu-latest
