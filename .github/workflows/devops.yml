@@ -8,28 +8,34 @@ on:
   #     - main
   pull_request:
     branches: [ "main" ]  
-  workflow_dispatch: {}        
+  # workflow_dispatch: {} 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Versión de la app"
+        required: false
+        default: "20"           
 
 jobs:
   Compilacion:
     runs-on: ubuntu-latest
     steps:    
-      - name: Run a Docker action (Alpine)
-        uses: docker://alpine:3.18
-        with:
-          args: echo "Hola desde Alpine dentro de GitHub Actions"
+      # - name: Run a Docker action (Alpine)
+      #   uses: docker://alpine:3.18
+      #   with:
+      #     args: echo "Hola desde Alpine dentro de GitHub Actions"
 
       - uses: actions/checkout@v4  
 
       - name: Setear versión de Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"   # Cambia a la versión que necesites
+          node-version: "${{ inputs.version }}"   # Cambia a la versión que necesites
           cache: 'npm'         # Opcional: cachea dependencias npm 
 
       - name: Instalar dependencias
         run: |
-          echo "Versión: 20"
+          echo "Versión: ${{ inputs.version }}"
           npm install -g @angular/cli
           npm install
 
@@ -68,11 +74,11 @@ jobs:
 #########
 ##REUSABLE WORKFLOW REMOTE
 #########
-  call-build:
-    uses: AngelEvaristo/templatestest/.github/workflows/template.yml@main
-    with:
-      app-name: "mi-webapp-angular"
-      source-path: "dist/my-first-angular-app/browser"  
+  # call-build:
+  #   uses: AngelEvaristo/templatestest/.github/workflows/template.yml@main
+  #   with:
+  #     app-name: "mi-webapp-angular"
+  #     source-path: "dist/my-first-angular-app/browser"  
 
   # Compilacion_2:
   #   runs-on: ubuntu-latest
