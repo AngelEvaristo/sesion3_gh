@@ -1,6 +1,6 @@
-name: GITHUBnpm
+name: GITHUB_WORKFLOW
 
-run-name: "GITHUB NPM"
+run-name: "GITHUB RUN"
 
 on:
   # push:
