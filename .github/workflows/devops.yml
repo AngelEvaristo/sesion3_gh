@@ -18,8 +18,8 @@ on:
 
 jobs:
   Compilacion:
-    environment: DEV
-    runs-on: ubuntu-latest
+    # environment: DEV
+    runs-on: [windows, windowsbuild]
     steps:    
       # - name: Run a Docker action (Alpine)
       #   uses: docker://alpine:3.18
@@ -55,37 +55,37 @@ jobs:
 ###AWS###
 #####
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1 
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-1 
 
-      - name: Sync files to S3
-        run: |
-          cd dist/my-first-angular-app/browser
-          dir
-          echo "Bucket: ${{ vars.BUCKETS3 }}"
-          aws s3 rm s3://tecylabpruebauno --recursive
-          aws s3 sync . s3://tecylabpruebauno
-          aws s3 ls s3://tecylabpruebauno
+      # - name: Sync files to S3
+      #   run: |
+      #     cd dist/my-first-angular-app/browser
+      #     dir
+      #     echo "Bucket: ${{ vars.BUCKETS3 }}"
+      #     aws s3 rm s3://tecylabpruebauno --recursive
+      #     aws s3 sync . s3://tecylabpruebauno
+      #     aws s3 ls s3://tecylabpruebauno
           
 
 #########
 ##COMPOSITE
 #########
-      - name: Crear ZIP usando composite action
-        uses: ./.github/actions/createzip
-        with:
-          source: dist/my-first-angular-app/browser
-          output: app.zip
+      # - name: Crear ZIP usando composite action
+      #   uses: ./.github/actions/createzip
+      #   with:
+      #     source: dist/my-first-angular-app/browser
+      #     output: app.zip
 
-      - name: Publicar artefacto
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-zip2
-          path: app.zip
+      # - name: Publicar artefacto
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: app-zip2
+      #     path: app.zip
 
   # DeployDEV:
   #   runs-on: ubuntu-latest
