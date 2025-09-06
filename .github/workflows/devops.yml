@@ -36,13 +36,19 @@ jobs:
       - name: Compilar aplicación
         run: ng build --configuration production   
 
-      - name: Comprimir con PowerShell
-        shell: pwsh
-        run: |
-          # if (Test-Path dist/my-first-angular-app/browser) { Remove-Item dist/my-first-angular-app/browser -Force }
-          Push-Location "dist/my-first-angular-app/browser"
-          Compress-Archive -Path * -DestinationPath "$env:GITHUB_WORKSPACE/app.zip"
-          Pop-Location        
+      # - name: Comprimir con PowerShell
+      #   shell: pwsh
+      #   run: |
+      #     # if (Test-Path dist/my-first-angular-app/browser) { Remove-Item dist/my-first-angular-app/browser -Force }
+      #     Push-Location "dist/my-first-angular-app/browser"
+      #     Compress-Archive -Path * -DestinationPath "$env:GITHUB_WORKSPACE/app.zip"
+      #     Pop-Location        
+
+      - name: Crear ZIP usando composite action
+        uses: ./.github/actions/createzip
+        with:
+          source: dist/my-first-angular-app/browser
+          output: app.zip
 
       - name: Publicar artefacto
         uses: actions/upload-artifact@v4
