@@ -1,0 +1,48 @@
+name: ReusableWorkFlow
+
+on:
+  workflow_call:
+    inputs:
+      app-name:
+        description: "Nombre del Azure Web App"
+        required: true
+        type: string
+      source-path:
+        description: "Carpeta donde están los archivos para empaquetar"
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setear versión de Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"   # Cambia a la versión que necesites
+          cache: 'npm'         # Opcional: cachea dependencias npm
+
+      - name: Instalar dependencias
+        run: |
+          echo "Versión: ${{ inputs.app-name }}"
+          npm install -g @angular/cli
+          npm install
+
+      - name: Compilar aplicación
+        run: ng build --configuration production
+
+      - name: Crear archivo ZIP con PowerShell
+        shell: pwsh
+        run: |
+          if (Test-Path app.zip) { Remove-Item app.zip -Force }
+          Push-Location ${{ inputs.source }}
+          Compress-Archive -Path * -DestinationPath $env:GITHUB_WORKSPACE/app.zip
+          Pop-Location
+
+      - name: Publicar artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-zip
+          path: app.zip
