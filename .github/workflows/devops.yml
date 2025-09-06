@@ -65,6 +65,7 @@ jobs:
         run: |
           cd dist/my-first-angular-app/browser
           dir
+          echo "Bucket: ${{ vars.BUCKETS3 }}"
           aws s3 rm s3://tecylabpruebauno --recursive
           aws s3 sync . s3://tecylabpruebauno
           aws s3 ls s3://tecylabpruebauno
@@ -118,11 +119,11 @@ jobs:
 # DEPLOY WEB APP ACR
 ######
 
-      - name: Deploy to Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: "${{ vars.APPNAME_ACR }}"   # 
-          images: devopspruebatecylab.azurecr.io/minimalapi:1.2.7  
+      # - name: Deploy to Web App
+      #   uses: azure/webapps-deploy@v2
+      #   with:
+      #     app-name: "${{ vars.APPNAME_ACR }}"   # 
+      #     images: devopspruebatecylab.azurecr.io/minimalapi:1.2.7  
 
   # DeployCERT:
   #   runs-on: ubuntu-latest
