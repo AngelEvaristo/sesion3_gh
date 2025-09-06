@@ -81,7 +81,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: Compilacion
+    needs: [Compilacion, Compilacion_2]
     steps:
       - name: Descargar artefacto
         uses: actions/download-artifact@v4
