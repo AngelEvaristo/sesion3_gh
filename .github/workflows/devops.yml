@@ -31,9 +31,9 @@ jobs:
       - name: Comprimir con PowerShell
         shell: pwsh
         run: |
-          if (Test-Path dist/my-first-angular-app/browser) { Remove-Item dist/my-first-angular-app/browser -Force }
-          Push-Location dist/my-first-angular-app/browser
-          Compress-Archive -Path * -DestinationPath $env:GITHUB_WORKSPACE/app.zip
+          # if (Test-Path dist/my-first-angular-app/browser) { Remove-Item dist/my-first-angular-app/browser -Force }
+          Push-Location "dist/my-first-angular-app/browser"
+          Compress-Archive -Path * -DestinationPath "$env:GITHUB_WORKSPACE/app.zip"
           Pop-Location        
 
       - name: Publicar artefacto
