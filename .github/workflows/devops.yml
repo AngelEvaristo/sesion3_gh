@@ -76,7 +76,7 @@ jobs:
       #     path: .  
       - name: Echo var env
         run: |
-          echo "Versión: ${{ inputs.VARIABLE }}"  
+          echo "Versión: ${{ vars.VARIABLE }}"  
 
   DeployCERT:
     runs-on: ubuntu-latest
@@ -90,7 +90,7 @@ jobs:
       #     path: .  
       - name: Echo var env
         run: |
-          echo "Versión: ${{ inputs.VARIABLE }}" 
+          echo "Versión: ${{ vars.VARIABLE }}" 
 
 #########
 ##REUSABLE WORKFLOW LOCAL
